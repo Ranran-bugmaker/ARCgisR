@@ -208,6 +208,8 @@ namespace _10._12.arcgis1
             {
                 pCurLayar.Visible = true;
                 (axMapControlmain.Map as IActiveView).PartialRefresh(esriViewDrawPhase.esriViewGeography, pCurLayar, null);
+
+
             }
         }
     }

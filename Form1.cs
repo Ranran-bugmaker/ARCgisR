@@ -1,6 +1,8 @@
 ﻿using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Controls;
 using ESRI.ArcGIS.Display;
+using ESRI.ArcGIS.esriSystem;
+using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.SystemUI;
 using System;
@@ -27,6 +29,14 @@ namespace _10._12.arcgis1
         private void Form1_Load(object sender, EventArgs e)
         {
             axTOCControl1.SetBuddyControl(axMapControlmain);
+
+            axMapControleye.ClearLayers();
+            for (int i = 0; i < axMapControlmain.LayerCount; i++)
+            {
+                axMapControleye.AddLayer(axMapControlmain.get_Layer(i));
+            }
+            axMapControleye.Extent = axMapControlmain.FullExtent;
+            axMapControleye.Refresh();
         }
 
         private void 打开mxd文件ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -134,25 +144,104 @@ namespace _10._12.arcgis1
         private void axMapControlmain_OnMouseMove(object sender, IMapControlEvents2_OnMouseMoveEvent e)
         {
             toolStripStatusLabel1.Text = e.mapX.ToString(".###")+@"  "+e.mapY.ToString(".###");
+
+            if (axMapControlmain.LayerCount <= 0  || pCurLayar == null)
+            {
+                return;
+            }
+
+            //IPoint pt = axMapControlmain.ToMapPoint(e.x, e.y);
+            //ILayer pLyr;
+            ////对图层第三个进行显示
+            //IFeatureLayer pFeatLyr = axMapControlmain.get_Layer(2) as IFeatureLayer;
+            //pLyr = pFeatLyr as ILayer;
+            //pFeatLyr.DisplayField = "FID";
+            //string pTip;
+            //pTip = pLyr.get_TipText(pt.X, pt.Y, 1);
+            //pLyr.ShowTips = true;
+            //axMapControlmain.ShowMapTips = true;
+
+
+            //ShowTips显示的要素类
+            //IFeatureLayer pFeatureLayer = pCurLayar as IFeatureLayer;
+            //pFeatureLayer.DisplayField = "FID";    //ShowTips显示的字段名称
+            //将两个ShowTips属性设置为true
+            //pFeatureLayer.ShowTips = true;
+            //axMapControlmain.ShowMapTips = true;
+
         }
 
         private void axMapControlmain_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
         {
-            IMap pMap= axMapControlmain.Map;;
-            IActiveView pActiveView = pMap as IActiveView;
-            IPoint pt= axMapControlmain.ToMapPoint(e.x, e.y);
-            IMarkerElement pMarkerElement= new MarkerElementClass();
-            IElement pElement= pMarkerElement as IElement;
-            pElement.Geometry = pt;
-            IGraphicsContainer pGraphicsContainer= pMap as IGraphicsContainer;
-            pGraphicsContainer.AddElement((IElement)pMarkerElement, 0);
-            pActiveView.Refresh();
+            IGeometry geometry = axMapControlmain.TrackRectangle();
+            axMapControlmain.Map.SelectByShape(geometry, null, false);
+            //axMapControlmain.Refresh(esriViewDrawPhase.esriViewGeoSelection, null, null);
+
+
+            // 获取选择集  
+            ISelection pSelection = axMapControlmain.Map.FeatureSelection;
+
+            // 打开属性标签  
+            //IEnumFeatureSetup pEnumFeatureSetup = pSelection as IEnumFeatureSetup;
+            //pEnumFeatureSetup.AllFields = true;
+            //// 获取要素  
+            IEnumFeature pEnumFeature = pSelection as IEnumFeature;
+            IFeature pFeature = pEnumFeature.Next();
+            IFeatureLayer[] players = new IFeatureLayer[axMapControlmain.LayerCount];
+
+            //FeatureLayer pFeatureLayer = new FeatureLayer();
+            //IFeatureLayer player = pFeatureLayer as IFeatureLayer;
+            //IFeatureSelection pFeatureSelection = pFeatureLayer as IFeatureSelection;
+            //while (pFeature != null)
+            //{
+            //    pFeatureSelection.Add(pFeature);
+            //    pFeature = pEnumFeature.Next();
+            //}
+
+
+            IPoint pPoint;
+            IArray pArray;
+            IFeatureIdentifyObj pFeatIdObj;
+            IIdentifyObj pIdObj;
+            IIdentify pIdentify = (IIdentify)pCurLayar;
+            //pPoint = axMapControlmain.ToMapPoint(e.x, e.y);
+            pArray = pIdentify.Identify(geometry);
+            if (pArray != null)
+            { //获得FeatureIdentifyObj对象
+                //for (int i = 0; i < pArray.Count; i++)
+                //{
+                //    pFeatIdObj = (IFeatureIdentifyObj)pArray.get_Element(i);
+                //    pIdObj = pFeatIdObj as IIdentifyObj;
+                //    // 将被选择的要素闪烁
+                //    pIdObj.Flash(axMapControlmain.ActiveView.ScreenDisplay);
+                    
+                //    //listBox1.Items.Add(pIdObj.Name);
+
+                //}
+                axMapControlmain.FlashShape();
+            }
+            else
+            {
+                MessageBox.Show("没有要素被点击");
+            }
+
+
+
+            //IMap pMap= axMapControlmain.Map;;
+            //IActiveView pActiveView = pMap as IActiveView;
+            //IPoint pt= axMapControlmain.ToMapPoint(e.x, e.y);
+            //IMarkerElement pMarkerElement= new MarkerElementClass();
+            //IElement pElement= pMarkerElement as IElement;
+            //pElement.Geometry = pt;
+            //IGraphicsContainer pGraphicsContainer= pMap as IGraphicsContainer;
+            //pGraphicsContainer.AddElement((IElement)pMarkerElement, 0);
+            //pActiveView.Refresh();
 
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < axMapControlmain.LayerCount-1; i++)
+            for (int i = 0; i < axMapControlmain.LayerCount; i++)
             {
                 axMapControlmain.get_Layer(i).Visible = true;
             }
@@ -162,7 +251,7 @@ namespace _10._12.arcgis1
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < axMapControlmain.LayerCount - 1; i++)
+            for (int i = 0; i < axMapControlmain.LayerCount; i++)
             {
                 axMapControlmain.get_Layer(i).Visible = false;
             }
@@ -172,6 +261,18 @@ namespace _10._12.arcgis1
 
         private void axTOCControl1_OnMouseDown(object sender, ITOCControlEvents_OnMouseDownEvent e)
         {
+            if (e.button==1)
+            {
+                esriTOCControlItem itemType = esriTOCControlItem.esriTOCControlItemNone;
+                IBasicMap basicMap = null;
+                ILayer layer = null;
+                object unk = null, data = null;
+                axTOCControl1.HitTest(e.x, e.y, ref itemType, ref basicMap, ref layer, ref unk, ref data);
+                if (layer != null)
+                {
+                    pCurLayar = layer;
+                }
+            }
             if (e.button == 2)
             {
                 esriTOCControlItem itemType=esriTOCControlItem.esriTOCControlItemNone;
@@ -183,6 +284,7 @@ namespace _10._12.arcgis1
                 {
                     pCurLayar = layer;
                     contextMenuStrip2.Show(MousePosition.X, MousePosition.Y);
+                    pCurLayar.ShowTips = true;
                 }
                 else if (basicMap !=null)
                 {
@@ -209,6 +311,24 @@ namespace _10._12.arcgis1
                 pCurLayar.Visible = true;
                 (axMapControlmain.Map as IActiveView).PartialRefresh(esriViewDrawPhase.esriViewGeography, pCurLayar, null);
             }
+        }
+
+        private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pCurLayar == null)
+            {
+                return;
+            }
+            axMapControlmain.ShowMapTips = true;
+        }
+
+        private void 关闭ToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            if (pCurLayar == null)
+            {
+                return;
+            }
+            axMapControlmain.ShowMapTips = false;
         }
     }
 }

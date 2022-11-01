@@ -208,6 +208,7 @@ namespace _10._12.arcgis1
             pArray = pIdentify.Identify(geometry);
             if (pArray != null)
             { //获得FeatureIdentifyObj对象
+<<<<<<< HEAD
                 for (int i = 0; i < pArray.Count; i++)
                 {
                     pFeatIdObj = (IFeatureIdentifyObj)pArray.get_Element(i);
@@ -219,6 +220,19 @@ namespace _10._12.arcgis1
 
                 }
                 //axMapControlmain.FlashShape();
+=======
+                //for (int i = 0; i < pArray.Count; i++)
+                //{
+                //    pFeatIdObj = (IFeatureIdentifyObj)pArray.get_Element(i);
+                //    pIdObj = pFeatIdObj as IIdentifyObj;
+                //    // 将被选择的要素闪烁
+                //    pIdObj.Flash(axMapControlmain.ActiveView.ScreenDisplay);
+                    
+                //    //listBox1.Items.Add(pIdObj.Name);
+
+                //}
+                axMapControlmain.FlashShape();
+>>>>>>> d41f0f6a817b62cc4ff831e051f9efc967048fdb
             }
             else
             {

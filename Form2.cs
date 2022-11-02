@@ -297,5 +297,31 @@ namespace _10._12.arcgis1
             }
             catch { }
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            //定义空间查询过滤器对象
+            ISpatialFilter pSpatialFilter = new SpatialFilterClass();
+            //设置sql查询语句
+            pSpatialFilter.WhereClause = wheretxt.Text;
+            //设置查询范围
+            if (Form1.geometry == null)
+            {
+                return;
+            }
+            pSpatialFilter.Geometry = Form1.geometry;
+            //给定范围与查询对象的空间关系
+            pSpatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelContains;
+
+            IFeatureSelection featureSelection = currentFeatureLayer as IFeatureSelection;
+            IActiveView activeView = currentMap as IActiveView;
+
+            //首先使用IMap接口的ClearSelection()方法清空地图选择集
+            currentMap.ClearSelection();
+            //根据定义的where语句使用IFeatureSelection接口的SelectFeatures方法选择要素，并将其添加到选择集中
+            featureSelection.SelectFeatures(pSpatialFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
+
+            activeView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, activeView.Extent);
+        }
     }
 }

@@ -19,6 +19,9 @@ namespace _10._12.arcgis1
 {
     public partial class Form1 : Form
     {
+
+        public static IGeometry geometry { get; private set; }
+
         public ILayer pCurLayar { get; private set; }
 
         public Form1()
@@ -173,7 +176,7 @@ namespace _10._12.arcgis1
 
         private void axMapControlmain_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
         {
-//            IGeometry geometry = axMapControlmain.TrackRectangle();
+            geometry = axMapControlmain.TrackRectangle();
 //            axMapControlmain.Map.SelectByShape(geometry, null, false);
 //            //axMapControlmain.Refresh(esriViewDrawPhase.esriViewGeoSelection, null, null);
 
@@ -338,9 +341,65 @@ namespace _10._12.arcgis1
             form2.Show();
         }
 
-        private void 矩形ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
+
+
+        /// <summary>
+        /// 核心空间查询函数
+        /// </summary>
+        /// <param name="pFtClass">查询要素类</param>
+        /// <param name="pWhereClause">SQL语句</param>
+        /// <param name="pGeometry">空间查询范围</param>
+        /// <param name="pSpRel">空间关系</param>
+        /// <returns></returns>
+        private DataTable SpatialSearch(IFeatureClass pFtClass, string pWhereClause, IGeometry pGeometry, esriSpatialRelEnum pSpRel)
+        {
+            //定义空间查询过滤器对象
+            ISpatialFilter pSpatialFilter = new SpatialFilterClass();
+            //设置sql查询语句
+            pSpatialFilter.WhereClause = pWhereClause;
+            //设置查询范围
+            pSpatialFilter.Geometry = pGeometry;
+            //给定范围与查询对象的空间关系
+            pSpatialFilter.SpatialRel = pSpRel;
+
+            //查询结果以游标的形式返回(下面与属性查询一样)
+            IFeatureCursor pFtCursor = pFtClass.Search(pSpatialFilter, false);
+            IFeature pFt = pFtCursor.NextFeature();
+            DataTable DT = new DataTable();
+            //for (int i = 0; i < pFtCursor.Fields.FieldCount; i++)
+            //{
+            //    DataColumn dc = new DataColumn(pFtCursor.Fields.get_Field(i).Name,
+            //        System.Type.GetType(ParseFieldType((pFtCursor.Fields.get_Field(i).Type))));
+            //    DT.Columns.Add(dc);
+            //}
+            while (pFt != null)
+            {
+                DataRow dr = DT.NewRow();
+                for (int i = 0; i < pFt.Fields.FieldCount; i++)
+                {
+                    dr[i] = pFt.get_Value(i);
+                }
+                DT.Rows.Add(dr);
+                pFt = pFtCursor.NextFeature();
+            }
+            return DT;
         }
+        //private static string ParseFieldType(esriFieldType FieldType)
+        //{
+        //    switch (FieldType)
+        //    {
+        //        case esriFieldType.esriFieldTypeInteger:
+        //            return "System.Int32";
+        //        case esriFieldType.esriFieldTypeOID:
+        //            return "System.Int32";
+        //        case esriFieldType.esriFieldTypeDouble:
+        //            return "System.Double";
+        //        case esriFieldType.esriFieldTypeDate:
+        //            return "System.DateTime";
+        //        default:
+        //            return "System.String";
+        //    }
+        //}
     }
 }

@@ -173,83 +173,69 @@ namespace _10._12.arcgis1
 
         private void axMapControlmain_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
         {
-            IGeometry geometry = axMapControlmain.TrackRectangle();
-            axMapControlmain.Map.SelectByShape(geometry, null, false);
-            //axMapControlmain.Refresh(esriViewDrawPhase.esriViewGeoSelection, null, null);
+//            IGeometry geometry = axMapControlmain.TrackRectangle();
+//            axMapControlmain.Map.SelectByShape(geometry, null, false);
+//            //axMapControlmain.Refresh(esriViewDrawPhase.esriViewGeoSelection, null, null);
 
 
-            // 获取选择集  
-            ISelection pSelection = axMapControlmain.Map.FeatureSelection;
+//            // 获取选择集  
+//            ISelection pSelection = axMapControlmain.Map.FeatureSelection;
 
-            // 打开属性标签  
-            //IEnumFeatureSetup pEnumFeatureSetup = pSelection as IEnumFeatureSetup;
-            //pEnumFeatureSetup.AllFields = true;
-            //// 获取要素  
-            IEnumFeature pEnumFeature = pSelection as IEnumFeature;
-            IFeature pFeature = pEnumFeature.Next();
-            IFeatureLayer[] players = new IFeatureLayer[axMapControlmain.LayerCount];
+//            // 打开属性标签  
+//            //IEnumFeatureSetup pEnumFeatureSetup = pSelection as IEnumFeatureSetup;
+//            //pEnumFeatureSetup.AllFields = true;
+//            //// 获取要素  
+//            IEnumFeature pEnumFeature = pSelection as IEnumFeature;
+//            IFeature pFeature = pEnumFeature.Next();
+//            IFeatureLayer[] players = new IFeatureLayer[axMapControlmain.LayerCount];
 
-            //FeatureLayer pFeatureLayer = new FeatureLayer();
-            //IFeatureLayer player = pFeatureLayer as IFeatureLayer;
-            //IFeatureSelection pFeatureSelection = pFeatureLayer as IFeatureSelection;
-            //while (pFeature != null)
-            //{
-            //    pFeatureSelection.Add(pFeature);
-            //    pFeature = pEnumFeature.Next();
-            //}
+//            //FeatureLayer pFeatureLayer = new FeatureLayer();
+//            //IFeatureLayer player = pFeatureLayer as IFeatureLayer;
+//            //IFeatureSelection pFeatureSelection = pFeatureLayer as IFeatureSelection;
+//            //while (pFeature != null)
+//            //{
+//            //    pFeatureSelection.Add(pFeature);
+//            //    pFeature = pEnumFeature.Next();
+//            //}
 
 
-            IPoint pPoint;
-            IArray pArray;
-            IFeatureIdentifyObj pFeatIdObj;
-            IIdentifyObj pIdObj;
-            IIdentify pIdentify = (IIdentify)pCurLayar;
-            //pPoint = axMapControlmain.ToMapPoint(e.x, e.y);
-            pArray = pIdentify.Identify(geometry);
-            if (pArray != null)
-            { //获得FeatureIdentifyObj对象
-<<<<<<< HEAD
-                for (int i = 0; i < pArray.Count; i++)
-                {
-                    pFeatIdObj = (IFeatureIdentifyObj)pArray.get_Element(i);
-                    pIdObj = pFeatIdObj as IIdentifyObj;
-                    // 将被选择的要素闪烁
-                    pIdObj.Flash(axMapControlmain.ActiveView.ScreenDisplay);
-
-                    //listBox1.Items.Add(pIdObj.Name);
-
-                }
-                //axMapControlmain.FlashShape();
-=======
-                //for (int i = 0; i < pArray.Count; i++)
-                //{
-                //    pFeatIdObj = (IFeatureIdentifyObj)pArray.get_Element(i);
-                //    pIdObj = pFeatIdObj as IIdentifyObj;
-                //    // 将被选择的要素闪烁
-                //    pIdObj.Flash(axMapControlmain.ActiveView.ScreenDisplay);
+//            IPoint pPoint;
+//            IArray pArray;
+//            IFeatureIdentifyObj pFeatIdObj;
+//            IIdentifyObj pIdObj;
+//            IIdentify pIdentify = (IIdentify)pCurLayar;
+//            //pPoint = axMapControlmain.ToMapPoint(e.x, e.y);
+//            pArray = pIdentify.Identify(geometry);
+//            if (pArray != null)
+//            { //获得FeatureIdentifyObj对象
+//                //for (int i = 0; i < pArray.Count; i++)
+//                //{
+//                //    pFeatIdObj = (IFeatureIdentifyObj)pArray.get_Element(i);
+//                //    pIdObj = pFeatIdObj as IIdentifyObj;
+//                //    // 将被选择的要素闪烁
+//                //    pIdObj.Flash(axMapControlmain.ActiveView.ScreenDisplay);
                     
-                //    //listBox1.Items.Add(pIdObj.Name);
+//                //    //listBox1.Items.Add(pIdObj.Name);
 
-                //}
-                axMapControlmain.FlashShape();
->>>>>>> d41f0f6a817b62cc4ff831e051f9efc967048fdb
-            }
-            else
-            {
-                MessageBox.Show("没有要素被点击");
-            }
-
+//                //}
+//                axMapControlmain.FlashShape();
+//            }
+//            else
+//            {
+//                MessageBox.Show("没有要素被点击");
+//            }
 
 
-            //IMap pMap= axMapControlmain.Map;;
-            //IActiveView pActiveView = pMap as IActiveView;
-            //IPoint pt= axMapControlmain.ToMapPoint(e.x, e.y);
-            //IMarkerElement pMarkerElement= new MarkerElementClass();
-            //IElement pElement= pMarkerElement as IElement;
-            //pElement.Geometry = pt;
-            //IGraphicsContainer pGraphicsContainer= pMap as IGraphicsContainer;
-            //pGraphicsContainer.AddElement((IElement)pMarkerElement, 0);
-            //pActiveView.Refresh();
+
+//            //IMap pMap= axMapControlmain.Map;;
+//            //IActiveView pActiveView = pMap as IActiveView;
+//            //IPoint pt= axMapControlmain.ToMapPoint(e.x, e.y);
+//            //IMarkerElement pMarkerElement= new MarkerElementClass();
+//            //IElement pElement= pMarkerElement as IElement;
+//            //pElement.Geometry = pt;
+//            //IGraphicsContainer pGraphicsContainer= pMap as IGraphicsContainer;
+//            //pGraphicsContainer.AddElement((IElement)pMarkerElement, 0);
+//            //pActiveView.Refresh();
 
         }
 
@@ -343,6 +329,18 @@ namespace _10._12.arcgis1
                 return;
             }
             axMapControlmain.ShowMapTips = false;
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+            form2.CurrentMap = axMapControlmain.Map;
+            form2.Show();
+        }
+
+        private void 矩形ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

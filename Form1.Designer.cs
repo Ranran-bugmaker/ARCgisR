@@ -33,6 +33,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开mxd文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.关闭ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.axToolbarControl1 = new ESRI.ArcGIS.Controls.AxToolbarControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -51,9 +54,10 @@
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.关闭图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.显示图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.关闭ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.矩形ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -80,7 +84,8 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.文件ToolStripMenuItem,
-            this.tipsToolStripMenuItem});
+            this.tipsToolStripMenuItem,
+            this.testToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1049, 28);
@@ -101,6 +106,29 @@
             this.打开mxd文件ToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.打开mxd文件ToolStripMenuItem.Text = "打开mxd文件";
             this.打开mxd文件ToolStripMenuItem.Click += new System.EventHandler(this.打开mxd文件ToolStripMenuItem_Click);
+            // 
+            // tipsToolStripMenuItem
+            // 
+            this.tipsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.打开ToolStripMenuItem,
+            this.关闭ToolStripMenuItem});
+            this.tipsToolStripMenuItem.Name = "tipsToolStripMenuItem";
+            this.tipsToolStripMenuItem.Size = new System.Drawing.Size(50, 24);
+            this.tipsToolStripMenuItem.Text = "tips";
+            // 
+            // 打开ToolStripMenuItem
+            // 
+            this.打开ToolStripMenuItem.Name = "打开ToolStripMenuItem";
+            this.打开ToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
+            this.打开ToolStripMenuItem.Text = "打开";
+            this.打开ToolStripMenuItem.Click += new System.EventHandler(this.打开ToolStripMenuItem_Click);
+            // 
+            // 关闭ToolStripMenuItem
+            // 
+            this.关闭ToolStripMenuItem.Name = "关闭ToolStripMenuItem";
+            this.关闭ToolStripMenuItem.Size = new System.Drawing.Size(122, 26);
+            this.关闭ToolStripMenuItem.Text = "关闭";
+            this.关闭ToolStripMenuItem.Click += new System.EventHandler(this.关闭ToolStripMenuItem_Click_1);
             // 
             // axToolbarControl1
             // 
@@ -285,28 +313,36 @@
             this.显示图层ToolStripMenuItem.Text = "显示";
             this.显示图层ToolStripMenuItem.Click += new System.EventHandler(this.显示ToolStripMenuItem_Click);
             // 
-            // tipsToolStripMenuItem
+            // testToolStripMenuItem
             // 
-            this.tipsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.打开ToolStripMenuItem,
-            this.关闭ToolStripMenuItem});
-            this.tipsToolStripMenuItem.Name = "tipsToolStripMenuItem";
-            this.tipsToolStripMenuItem.Size = new System.Drawing.Size(50, 24);
-            this.tipsToolStripMenuItem.Text = "tips";
+            this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.closeToolStripMenuItem});
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.testToolStripMenuItem.Text = "test";
             // 
-            // 打开ToolStripMenuItem
+            // openToolStripMenuItem
             // 
-            this.打开ToolStripMenuItem.Name = "打开ToolStripMenuItem";
-            this.打开ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.打开ToolStripMenuItem.Text = "打开";
-            this.打开ToolStripMenuItem.Click += new System.EventHandler(this.打开ToolStripMenuItem_Click);
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
+            this.openToolStripMenuItem.Text = "要素属性查询/粗糙版";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
-            // 关闭ToolStripMenuItem
+            // closeToolStripMenuItem
             // 
-            this.关闭ToolStripMenuItem.Name = "关闭ToolStripMenuItem";
-            this.关闭ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.关闭ToolStripMenuItem.Text = "关闭";
-            this.关闭ToolStripMenuItem.Click += new System.EventHandler(this.关闭ToolStripMenuItem_Click_1);
+            this.closeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.矩形ToolStripMenuItem});
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
+            this.closeToolStripMenuItem.Text = "要素空间查询";
+            // 
+            // 矩形ToolStripMenuItem
+            // 
+            this.矩形ToolStripMenuItem.Name = "矩形ToolStripMenuItem";
+            this.矩形ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.矩形ToolStripMenuItem.Text = "矩形";
+            this.矩形ToolStripMenuItem.Click += new System.EventHandler(this.矩形ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -375,5 +411,9 @@
         private System.Windows.Forms.ToolStripMenuItem tipsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 关闭ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 矩形ToolStripMenuItem;
     }
 }

@@ -43,8 +43,9 @@ namespace _10._12.arcgis1
             this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button5 = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -165,6 +166,7 @@ namespace _10._12.arcgis1
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.comboBox1);
             this.tabPage1.Controls.Add(this.button5);
             this.tabPage1.Controls.Add(this.comboBoxLayerName);
             this.tabPage1.Controls.Add(this.button1);
@@ -184,6 +186,16 @@ namespace _10._12.arcgis1
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(624, 487);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(179, 23);
+            this.button5.TabIndex = 10;
+            this.button5.Text = "设定空间范围";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
@@ -194,15 +206,18 @@ namespace _10._12.arcgis1
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // comboBox1
             // 
-            this.button5.Location = new System.Drawing.Point(623, 443);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(179, 23);
-            this.button5.TabIndex = 10;
-            this.button5.Text = "设定空间范围";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "矩形",
+            "圆形",
+            "多边形"});
+            this.comboBox1.Location = new System.Drawing.Point(622, 414);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(181, 23);
+            this.comboBox1.TabIndex = 11;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // Form2
             // 
@@ -237,5 +252,6 @@ namespace _10._12.arcgis1
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

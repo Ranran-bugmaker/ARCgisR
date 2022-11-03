@@ -16,6 +16,8 @@ namespace _10._12.arcgis1
 {
     public partial class Form2 : Form
     {
+        private static int selectedindex=-1;
+        public static int Selectedindex { get { return selectedindex; } private set { selectedindex = value; } }
         public Form2()
         {
             InitializeComponent();
@@ -322,6 +324,11 @@ namespace _10._12.arcgis1
             featureSelection.SelectFeatures(pSpatialFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
 
             activeView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, activeView.Extent);
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedindex = comboBox1.SelectedIndex;
         }
     }
 }

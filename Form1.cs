@@ -176,7 +176,21 @@ namespace _10._12.arcgis1
 
         private void axMapControlmain_OnMouseDown(object sender, IMapControlEvents2_OnMouseDownEvent e)
         {
-            geometry = axMapControlmain.TrackRectangle();
+            switch (Form2.Selectedindex)
+            {
+                case 0:
+                    geometry = axMapControlmain.TrackRectangle();
+                    break;
+                case 1:
+                    geometry = axMapControlmain.TrackCircle();
+                    break;
+                case 2:
+                    geometry = axMapControlmain.TrackPolygon();
+                    break;
+                default:
+                    break; 
+            }
+            
 //            axMapControlmain.Map.SelectByShape(geometry, null, false);
 //            //axMapControlmain.Refresh(esriViewDrawPhase.esriViewGeoSelection, null, null);
 

@@ -4,14 +4,16 @@ using ESRI.ArcGIS.Geometry;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows.Forms;
 
 namespace _10._12.arcgis1
 {
     public partial class Form2 : Form
     {
+        private ISelection ifs;
         private static IGeometry seageometry { get; set; }
-        private static int selectedindex = -1;
+        private static int selectedindex =3;
         public static int Selectedindex { get { return selectedindex; } private set { selectedindex = value; } }
         public Form2()
         {
@@ -66,6 +68,7 @@ namespace _10._12.arcgis1
                 comboBoxLayerName.SelectedIndex = 0;
                 //将comboBoxSelectMethod控件的默认选项设置为第一种选择方式
                 comboBoxSelectMethod.SelectedIndex = 0;
+                comboBox1.SelectedIndex = 3;
             }
             catch { }
         }
@@ -211,70 +214,81 @@ namespace _10._12.arcgis1
         /// </summary>
         private void SelectFeaturesByAttribute()
         {
-            if (seageometry == null)
+            try
             {
-                //使用FeatureLayer对象的IFeatureSelection接口来执行查询操作。这里有一个接口转换操作。
-                IFeatureSelection featureSelection = currentFeatureLayer as IFeatureSelection;
-                //新建IQueryFilter接口的对象来进行where语句的定义
-                IQueryFilter queryFilter = new QueryFilterClass();
-                //设置where语句内容
-                queryFilter.WhereClause = wheretxt.Text;
-                //通过接口转换使用Map对象的IActiveView接口来部分刷新地图窗口，从而高亮显示查询的结果
-                IActiveView activeView = currentMap as IActiveView;
-
-                //根据查询选择方式的不同，得到不同的选择集
-                switch (comboBoxSelectMethod.SelectedIndex)
+                if (seageometry == null)
                 {
-                    //在新建选择集的情况下
-                    case 0:
-                        //首先使用IMap接口的ClearSelection()方法清空地图选择集
-                        currentMap.ClearSelection();
-                        //根据定义的where语句使用IFeatureSelection接口的SelectFeatures方法选择要素，并将其添加到选择集中
-                        featureSelection.SelectFeatures(queryFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
-                        break;
-                    //添加到当前选择集的情况
-                    case 1:
-                        featureSelection.SelectFeatures(queryFilter, esriSelectionResultEnum.esriSelectionResultAdd, false);
-                        break;
-                    //从当前选择集中删除的情况
-                    case 2:
-                        featureSelection.SelectFeatures(queryFilter, esriSelectionResultEnum.esriSelectionResultXOR, false);
-                        break;
-                    //从当前选择集中选择的情况
-                    case 3:
-                        featureSelection.SelectFeatures(queryFilter, esriSelectionResultEnum.esriSelectionResultAnd, false);
-                        break;
-                    //默认为新建选择集的情况
-                    default:
-                        currentMap.ClearSelection();
-                        featureSelection.SelectFeatures(queryFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
-                        break;
+                    //使用FeatureLayer对象的IFeatureSelection接口来执行查询操作。这里有一个接口转换操作。
+                    IFeatureSelection featureSelection = currentFeatureLayer as IFeatureSelection;
+                    //新建IQueryFilter接口的对象来进行where语句的定义
+                    IQueryFilter queryFilter = new QueryFilterClass();
+                    //设置where语句内容
+                    queryFilter.WhereClause = wheretxt.Text;
+                    //通过接口转换使用Map对象的IActiveView接口来部分刷新地图窗口，从而高亮显示查询的结果
+                    IActiveView activeView = currentMap as IActiveView;
+
+                    //根据查询选择方式的不同，得到不同的选择集
+                    switch (comboBoxSelectMethod.SelectedIndex)
+                    {
+                        //在新建选择集的情况下
+                        case 0:
+                            //首先使用IMap接口的ClearSelection()方法清空地图选择集
+                            currentMap.ClearSelection();
+                            //根据定义的where语句使用IFeatureSelection接口的SelectFeatures方法选择要素，并将其添加到选择集中
+                            featureSelection.SelectFeatures(queryFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
+                            break;
+                        //添加到当前选择集的情况
+                        case 1:
+                            featureSelection.SelectFeatures(queryFilter, esriSelectionResultEnum.esriSelectionResultAdd, false);
+                            break;
+                        //从当前选择集中删除的情况
+                        case 2:
+                            featureSelection.SelectFeatures(queryFilter, esriSelectionResultEnum.esriSelectionResultXOR, false);
+                            break;
+                        //从当前选择集中选择的情况
+                        case 3:
+                            featureSelection.SelectFeatures(queryFilter, esriSelectionResultEnum.esriSelectionResultAnd, false);
+                            break;
+                        //默认为新建选择集的情况
+                        default:
+                            currentMap.ClearSelection();
+                            featureSelection.SelectFeatures(queryFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
+                            ifs = currentMap.FeatureSelection;
+                            break;
+                    }
+
+                    //部分刷新操作，只刷新地理选择集的内容
+                    activeView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, activeView.Extent);
                 }
+                else
+                {
+                    //定义空间查询过滤器对象
+                    ISpatialFilter pSpatialFilter = new SpatialFilterClass();
+                    //设置sql查询语句
+                    pSpatialFilter.WhereClause = wheretxt.Text;
+                    //设置查询范围
+                    pSpatialFilter.Geometry = seageometry;
+                    //给定范围与查询对象的空间关系
+                    pSpatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelContains;
 
-                //部分刷新操作，只刷新地理选择集的内容
-                activeView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, activeView.Extent);
+                    IFeatureSelection featureSelection = currentFeatureLayer as IFeatureSelection;
+                    IActiveView activeView = currentMap as IActiveView;
+
+                    //首先使用IMap接口的ClearSelection()方法清空地图选择集
+                    currentMap.ClearSelection();
+                    //根据定义的where语句使用IFeatureSelection接口的SelectFeatures方法选择要素，并将其添加到选择集中
+                    featureSelection.SelectFeatures(pSpatialFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
+                    ifs = currentMap.FeatureSelection;
+
+                    activeView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, activeView.Extent);
+                }
             }
-            else
+            catch (Exception)
             {
-                //定义空间查询过滤器对象
-                ISpatialFilter pSpatialFilter = new SpatialFilterClass();
-                //设置sql查询语句
-                pSpatialFilter.WhereClause = wheretxt.Text;
-                //设置查询范围
-                pSpatialFilter.Geometry = seageometry;
-                //给定范围与查询对象的空间关系
-                pSpatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelContains;
 
-                IFeatureSelection featureSelection = currentFeatureLayer as IFeatureSelection;
-                IActiveView activeView = currentMap as IActiveView;
-
-                //首先使用IMap接口的ClearSelection()方法清空地图选择集
-                currentMap.ClearSelection();
-                //根据定义的where语句使用IFeatureSelection接口的SelectFeatures方法选择要素，并将其添加到选择集中
-                featureSelection.SelectFeatures(pSpatialFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
-
-                activeView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, activeView.Extent);
+                throw;
             }
+
 
 
         }
@@ -285,11 +299,86 @@ namespace _10._12.arcgis1
                 return;
             }
             seageometry = Form1.geometry;
+            comboBox1.SelectedIndex = 3;
+            //Form1.
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Form1.fm1.TopMost = true;
+            Form1.fm1.TopMost = false;
             selectedindex = comboBox1.SelectedIndex;
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = GetElementDataTable(currentMap.FeatureSelection);
+        }
+        #region//获取对应要素的属性表dataTable
+        private static DataTable GetElementDataTable(ISelection featureSelection)
+        {
+            ISelection selection = featureSelection;
+            IEnumFeatureSetup iEnumFeatureSetup = (IEnumFeatureSetup)selection;
+            iEnumFeatureSetup.AllFields = true;
+            IEnumFeature pEnumFeature = (IEnumFeature)iEnumFeatureSetup;
+            pEnumFeature.Reset();
+            IFeature pFeature = pEnumFeature.Next();
+            //
+            DataTable table = new DataTable();
+            IFields fields = pFeature.Fields;
+            for (int i = 0; i < fields.FieldCount; i++)
+            {
+                string FieldName = fields.get_Field(i).AliasName;
+                table.Columns.Add(FieldName);
+            }
+
+
+
+            while (pFeature != null)
+            {
+                DataRow dataRow = table.NewRow();
+                for (int i = 0; i < fields.FieldCount; i++)
+                {
+                    string FieldValue = null;
+                    FieldValue = Convert.ToString(pFeature.get_Value(i));
+                    dataRow[i] = FieldValue;
+                }
+                table.Rows.Add(dataRow);
+                pFeature = pEnumFeature.Next();
+
+            }
+            return table;
+
+            //DataTable pdataTable = new DataTable();
+            //IFeatureClass pFeatureclass = pFLayer.FeatureClass;
+            ////获取图层属性目录
+            //IFields pFields = pFeatureclass.Fields;
+            //for (int i = 0; i < pFields.FieldCount; i++)
+            //{
+            //    string FieldName = pFields.get_Field(i).AliasName;
+            //    pdataTable.Columns.Add(FieldName);
+            //}
+            ////游标
+            //IFeatureCursor pFeatureCursor;
+            //pFeatureCursor = pFeatureclass.Search(null, false);
+            //IFeature pFeature;
+            //pFeature = pFeatureCursor.NextFeature();
+            //while (pFeature != null)
+            //{
+            //    DataRow row = pdataTable.NewRow();
+            //    for (int i = 0; i < pFields.FieldCount; i++)
+            //    {
+            //        string FieldValue = null;
+            //        FieldValue = Convert.ToString(pFeature.get_Value(i));
+            //        row[i] = FieldValue;
+            //    }
+            //    pdataTable.Rows.Add(row);
+            //    pFeature = pFeatureCursor.NextFeature();
+            //}
+            ////指针释放
+            //System.Runtime.InteropServices.Marshal.ReleaseComObject(pFeatureCursor);
+            //return pdataTable;
+        }
+        #endregion
     }
 }

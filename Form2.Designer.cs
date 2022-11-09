@@ -40,28 +40,33 @@ namespace _10._12.arcgis1
             this.button4 = new System.Windows.Forms.Button();
             this.buttonGetUniqeValue = new System.Windows.Forms.Button();
             this.listBoxValues = new System.Windows.Forms.ListBox();
-            this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button5 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
+            this.form1BindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBoxLayerName
             // 
+            this.comboBoxLayerName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxLayerName.FormattingEnabled = true;
             this.comboBoxLayerName.Location = new System.Drawing.Point(207, 25);
             this.comboBoxLayerName.Name = "comboBoxLayerName";
-            this.comboBoxLayerName.Size = new System.Drawing.Size(536, 23);
+            this.comboBoxLayerName.Size = new System.Drawing.Size(537, 23);
             this.comboBoxLayerName.TabIndex = 0;
             this.comboBoxLayerName.SelectedIndexChanged += new System.EventHandler(this.comboBoxLayerName_SelectedIndexChanged);
             // 
             // comboBoxSelectMethod
             // 
+            this.comboBoxSelectMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSelectMethod.FormattingEnabled = true;
             this.comboBoxSelectMethod.Items.AddRange(new object[] {
             "新建选择集",
@@ -70,7 +75,7 @@ namespace _10._12.arcgis1
             "从当前选择集中选择"});
             this.comboBoxSelectMethod.Location = new System.Drawing.Point(207, 69);
             this.comboBoxSelectMethod.Name = "comboBoxSelectMethod";
-            this.comboBoxSelectMethod.Size = new System.Drawing.Size(536, 23);
+            this.comboBoxSelectMethod.Size = new System.Drawing.Size(537, 23);
             this.comboBoxSelectMethod.TabIndex = 1;
             // 
             // listBoxFields
@@ -112,16 +117,17 @@ namespace _10._12.arcgis1
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(482, 526);
+            this.button3.Location = new System.Drawing.Point(728, 526);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 6;
-            this.button3.Text = "button3";
+            this.button3.Text = "列表显示";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(682, 526);
+            this.button4.Location = new System.Drawing.Point(624, 526);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 7;
@@ -149,10 +155,6 @@ namespace _10._12.arcgis1
             this.listBoxValues.TabIndex = 9;
             this.listBoxValues.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxValues_MouseDoubleClick);
             // 
-            // form1BindingSource
-            // 
-            this.form1BindingSource.DataSource = typeof(_10._12.arcgis1.Form1);
-            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
@@ -161,7 +163,7 @@ namespace _10._12.arcgis1
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(855, 595);
+            this.tabControl1.Size = new System.Drawing.Size(862, 625);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage1
@@ -181,10 +183,25 @@ namespace _10._12.arcgis1
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(847, 566);
+            this.tabPage1.Size = new System.Drawing.Size(854, 596);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "矩形",
+            "圆形",
+            "多边形",
+            "无"});
+            this.comboBox1.Location = new System.Drawing.Point(622, 414);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(181, 23);
+            this.comboBox1.TabIndex = 11;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // button5
             // 
@@ -198,40 +215,45 @@ namespace _10._12.arcgis1
             // 
             // tabPage2
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Controls.Add(this.dataGridView1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 23);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(847, 566);
+            this.tabPage2.Size = new System.Drawing.Size(854, 598);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // form1BindingSource
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "矩形",
-            "圆形",
-            "多边形"});
-            this.comboBox1.Location = new System.Drawing.Point(622, 414);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(181, 23);
-            this.comboBox1.TabIndex = 11;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.form1BindingSource.DataSource = typeof(_10._12.arcgis1.Form1);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 27;
+            this.dataGridView1.Size = new System.Drawing.Size(848, 592);
+            this.dataGridView1.TabIndex = 0;
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(855, 595);
+            this.ClientSize = new System.Drawing.Size(862, 625);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form2";
             this.Text = "属性查询";
             this.Load += new System.EventHandler(this.Form2_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.form1BindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -253,5 +275,6 @@ namespace _10._12.arcgis1
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

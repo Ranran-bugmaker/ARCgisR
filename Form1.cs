@@ -19,7 +19,7 @@ namespace _10._12.arcgis1
 {
     public partial class Form1 : Form
     {
-
+        public static Form1 fm1;
         public static IGeometry geometry { get; private set; }
 
         public ILayer pCurLayar { get; private set; }
@@ -27,10 +27,12 @@ namespace _10._12.arcgis1
         public Form1()
         {
             InitializeComponent();
+            fm1 = this;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //this.TopMost
             axTOCControl1.SetBuddyControl(axMapControlmain);
 
             axMapControleye.ClearLayers();

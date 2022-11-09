@@ -11,7 +11,6 @@ namespace _10._12.arcgis1
 {
     public partial class Form2 : Form
     {
-        private ISelection ifs;
         private static IGeometry seageometry { get; set; }
         private static int selectedindex =3;
         public static int Selectedindex { get { return selectedindex; } private set { selectedindex = value; } }
@@ -253,7 +252,6 @@ namespace _10._12.arcgis1
                         default:
                             currentMap.ClearSelection();
                             featureSelection.SelectFeatures(queryFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
-                            ifs = currentMap.FeatureSelection;
                             break;
                     }
 
@@ -278,7 +276,6 @@ namespace _10._12.arcgis1
                     currentMap.ClearSelection();
                     //根据定义的where语句使用IFeatureSelection接口的SelectFeatures方法选择要素，并将其添加到选择集中
                     featureSelection.SelectFeatures(pSpatialFilter, esriSelectionResultEnum.esriSelectionResultNew, false);
-                    ifs = currentMap.FeatureSelection;
 
                     activeView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection, null, activeView.Extent);
                 }
@@ -317,6 +314,8 @@ namespace _10._12.arcgis1
         #region//获取对应要素的属性表dataTable
         private static DataTable GetElementDataTable(ISelection featureSelection)
         {
+            //IMap map = axMapControl1.Map;
+            //ISelection selection = map.FeatureSelection;
             ISelection selection = featureSelection;
             IEnumFeatureSetup iEnumFeatureSetup = (IEnumFeatureSetup)selection;
             iEnumFeatureSetup.AllFields = true;
@@ -348,36 +347,6 @@ namespace _10._12.arcgis1
 
             }
             return table;
-
-            //DataTable pdataTable = new DataTable();
-            //IFeatureClass pFeatureclass = pFLayer.FeatureClass;
-            ////获取图层属性目录
-            //IFields pFields = pFeatureclass.Fields;
-            //for (int i = 0; i < pFields.FieldCount; i++)
-            //{
-            //    string FieldName = pFields.get_Field(i).AliasName;
-            //    pdataTable.Columns.Add(FieldName);
-            //}
-            ////游标
-            //IFeatureCursor pFeatureCursor;
-            //pFeatureCursor = pFeatureclass.Search(null, false);
-            //IFeature pFeature;
-            //pFeature = pFeatureCursor.NextFeature();
-            //while (pFeature != null)
-            //{
-            //    DataRow row = pdataTable.NewRow();
-            //    for (int i = 0; i < pFields.FieldCount; i++)
-            //    {
-            //        string FieldValue = null;
-            //        FieldValue = Convert.ToString(pFeature.get_Value(i));
-            //        row[i] = FieldValue;
-            //    }
-            //    pdataTable.Rows.Add(row);
-            //    pFeature = pFeatureCursor.NextFeature();
-            //}
-            ////指针释放
-            //System.Runtime.InteropServices.Marshal.ReleaseComObject(pFeatureCursor);
-            //return pdataTable;
         }
         #endregion
     }
